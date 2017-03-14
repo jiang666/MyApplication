@@ -4,22 +4,26 @@
 
     <application
         android:icon="@drawable/icon"
-        android:name="SpeechApp"
-        android:label="讯飞语音示例v5+"
+        android:theme="@style/AppTheme"
+        android:label="DEMO"
         >
+        <activity android:name="com.iflytek.mscv5plusdemo.MainTActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.iflytek.mscv5plusdemo.MainActivity"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
             android:icon="@drawable/icon"
             android:label="讯飞语音示例v5+"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.iflytek.speech.setting.TtsSettings" >
+        </activity>
+        <activity android:name="com.iflytek.mscv5plusdemo.buttombar.ButtomBarActivity" >
         </activity>
         <activity android:name="com.iflytek.speech.setting.IatSettings" >
         </activity>

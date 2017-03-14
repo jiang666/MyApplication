@@ -6,7 +6,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.view.Window;
-
 import com.iflytek.mscv5plusdemo.R;
 import com.iflytek.speech.util.SettingTextWatcher;
 
