@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.iflytek.mscv5plusdemo.buttombar.ButtomBarActivity;
+import com.iflytek.mscv5plusdemo.httpdemo.NetActivity;
 import com.iflytek.mscv5plusdemo.recyclerviewdemo.MyRecyclerAdapter;
+import com.iflytek.mscv5plusdemo.titlebar.TitleBarActivity;
 
 import java.util.ArrayList;
 
@@ -94,7 +96,12 @@ public class MainTActivity extends Activity {
                 startActivity(intent);
                 break;
             case "标题栏":
-
+                intent = new Intent(this, TitleBarActivity.class);
+                startActivity(intent);
+                break;
+            case "网络请求":
+                intent = new Intent(this, NetActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -112,6 +119,9 @@ public class MainTActivity extends Activity {
                     break;
                 case 2:
                     mDatas.add("标题栏");
+                    break;
+                case 3:
+                    mDatas.add("网络请求");
                     break;
                 default:
                     mDatas.add("this"+i);

@@ -71,7 +71,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             }*/
         }
         holder.tv.setText( mDatas.get(position));
-        holder.tv.setTextColor(mContext.getResources().getColor(R.color.item_color));
+        holder.tv.setTextColor(mContext.getResources().getColor(R.color.black));
         /*ViewGroup.LayoutParams lp=holder.tv.getLayoutParams();
         Random random=new Random();
 
