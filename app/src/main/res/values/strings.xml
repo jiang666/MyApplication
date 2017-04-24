@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="menu_settings">Settings</string>
+    <string name="no_data">没有找到符合条件的房源</string>
     <string name="hello_world">hellow_world</string>
-    <string name="app_name">讯飞语音示例v5+</string>
-    <!-- 请替换成在语音云官网申请的appid -->
+    <string name="app_name">appdemo</string>
+    <!--&lt;!&ndash; 请替换成在语音云官网申请的appid &ndash;&gt;
     <string name="app_id">5832c5db</string>
     <string name="example_explain">本示例为讯飞语音Android平台开发者提供语音听写、语法识别、语义理解和语音合成等代码样例，旨在让用户能够依据该示例快速开发出基于语音接口的应用程序。</string>
     <string name="text_tts_source">科大讯飞作为中国最大的智能语音技术提供商，在智能语音技术领域有着长期的研究积累，并在中文语音合成、语音识别、口语评测等多项技术上拥有国际领先的成果。科大讯飞是我国唯一以语音技术为产业化方向的“国家863计划成果产业化基地”&#8230;</string>
@@ -11,7 +12,7 @@
     <string name="text_isr_abnf_hint">\t上传内容为：\n\t#ABNF 1.0 gb2312;\n\tlanguage zh-CN;\n\tmode voice;\n\troot $main;\n\t$main = $place1 到$place2 ;\n\t$place1 = 北京 | 武汉 | 南京 | 天津 | 东京;\n\t$place2 = 上海 | 合肥;</string>
     <string name="text_understand_hint">\t您可以说：\n\t今天的天气怎么样?\n\t北京到上海的火车?\n\t有什么好吃的?\n\t上海外滩有哪些酒店?\n\n\t更多语义请登录：\n\thttp://osp.voicecloud.cn/ \n\t配置您的专属语义吧!</string>
 
-    <!-- 听写 -->
+    &lt;!&ndash; 听写 &ndash;&gt;
     <string name="text_begin">请开始说话&#8230;</string>
     <string name="text_begin_recognizer">开始音频流识别</string>
     <string name="text_upload_contacts">上传联系人</string>
@@ -22,7 +23,7 @@
     <string name="pref_key_iat_show">iat_show</string>
     <string name="pref_title_iat_show">显示听写界面</string>
 
-    <!-- 合成 -->
+    &lt;!&ndash; 合成 &ndash;&gt;
     <string-array name="voicer_cloud_entries">
         <item>小燕</item>
         <item>小宇</item>
@@ -88,7 +89,7 @@
         <item>5</item>
     </string-array>
     <string name="tts_toast_format" formatted="false">缓冲进度为%d%%，播放进度为%d%%</string>
-    <!-- 语言 -->
+    &lt;!&ndash; 语言 &ndash;&gt;
     <string-array name="language_entries">
         <item>普通话</item>
         <item>粤语</item>
@@ -102,7 +103,7 @@
         <item>en_us</item>
     </string-array>
 
-    <!-- 标点符号 -->
+    &lt;!&ndash; 标点符号 &ndash;&gt;
     <string-array name="punc_entries">
         <item>有标点</item>
         <item>无标点</item>
@@ -112,9 +113,9 @@
         <item>0</item>
     </string-array>
 
-    <!-- 唤醒 -->
+    &lt;!&ndash; 唤醒 &ndash;&gt;
     <string name="example_explain_wake">唤醒是指通过说出特定的唤醒词来唤醒处于休眠状态下的设备，又分为唤醒和唤醒+识别。</string>
     <string name="wake_demo_hint">请点击“开始唤醒”后读出您在开放平台购买的唤醒词，当引擎计算得分大于您设置的门限值时，即可进行唤醒。</string>
     <string name="oneshot_demo_hint">请点击“唤醒+识别”后读出您在开放平台购买的唤醒词+语法中指定的识别对象，当引擎计算得分大于您设置的门限值时，即可进行唤醒+识别。</string>
-    <string name="oneshot_resource_hint">本示例识别词语为“张三|李四|张海洋”，请开发者将语法文件中的唤醒词字段替换，本地语法定义详见demo工程的asset/wake.bnf文件。</string>
+    <string name="oneshot_resource_hint">本示例识别词语为“张三|李四|张海洋”，请开发者将语法文件中的唤醒词字段替换，本地语法定义详见demo工程的asset/wake.bnf文件。</string>-->
 </resources>

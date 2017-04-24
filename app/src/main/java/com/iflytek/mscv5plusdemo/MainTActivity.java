@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.iflytek.mscv5plusdemo.buttombar.ButtomBarActivity;
 import com.iflytek.mscv5plusdemo.httpdemo.NetActivity;
+import com.iflytek.mscv5plusdemo.multilevelmenu.MulmenuActivity;
 import com.iflytek.mscv5plusdemo.recyclerviewdemo.MyRecyclerAdapter;
 import com.iflytek.mscv5plusdemo.titlebar.TitleBarActivity;
 
@@ -88,7 +89,7 @@ public class MainTActivity extends Activity {
         Intent intent = null;
         switch (item) {
             case "多级筛选":
-                intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, MulmenuActivity.class);
                 startActivity(intent);
                 break;
             case "底部导航":

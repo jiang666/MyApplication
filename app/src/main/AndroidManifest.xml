@@ -23,50 +23,15 @@
         <activity android:name=".MainTActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:icon="@drawable/icon"
-            android:label="讯飞语音示例v5+"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name="com.iflytek.speech.setting.TtsSettings"></activity>
+        <activity android:name="com.iflytek.mscv5plusdemo.multilevelmenu.MulmenuActivity"></activity>
+        
         <activity android:name="com.iflytek.mscv5plusdemo.httpdemo.NetActivity"></activity>
         <activity android:name=".titlebar.TitleBarActivity"></activity>
         <activity android:name=".buttombar.ButtomBarActivity"></activity>
-        <activity android:name="com.iflytek.speech.setting.IatSettings"></activity>
-        <activity android:name="com.iflytek.speech.setting.UnderstanderSettings"></activity>
-        <activity
-            android:name=".IatDemo"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".AsrDemo"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".UnderstanderDemo"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".TtsDemo"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".IvwActivity"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".WakeDemo"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".OneShotDemo"
-            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
-            android:screenOrientation="portrait"></activity>
+        
     </application>
 
 </manifest>

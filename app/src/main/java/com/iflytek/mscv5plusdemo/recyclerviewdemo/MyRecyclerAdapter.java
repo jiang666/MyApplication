@@ -56,19 +56,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                     return false;
                 }
             });
-           /* holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext,mDatas.get(position),Toast.LENGTH_LONG).show();
-                    if(mDatas.get(position).equals("多级筛选")){
-                        Intent intent = new Intent(mContext, MainActivity.class);
-                        mContext.startActivity(intent);
-                    }else if(mDatas.get(position).equals("底部导航")){
-                        Intent intent = new Intent(mContext, ButtomBarActivity.class);
-                        mContext.startActivity(intent);
-                    }
-                }
-            }*/
         }
         holder.tv.setText( mDatas.get(position));
         holder.tv.setTextColor(mContext.getResources().getColor(R.color.black));

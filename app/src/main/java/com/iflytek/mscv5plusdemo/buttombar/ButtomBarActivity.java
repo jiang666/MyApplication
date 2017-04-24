@@ -72,7 +72,7 @@ public class ButtomBarActivity extends AppCompatActivity implements BottomNaviga
         FragmentTransaction transaction = fm.beginTransaction();
         //Fragment homefragment = new HomeFragment();
         HomeFragment homefragment = HomeFragment.newInstance("home");
-        tv_title.setText("home");
+        tv_title.setText("Home");
         transaction.replace(R.id.layFrame, homefragment);
         transaction.commit();
     }

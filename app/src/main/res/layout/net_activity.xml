@@ -3,10 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
     android:gravity="center_horizontal">
-
+    <include layout="@layout/titlebar_activity" />
     <Button
         android:id="@+id/btn_netcall"
         android:layout_marginTop="10dp"
@@ -17,8 +15,13 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:gravity="center_horizontal"
         android:text="hkfdjkgkjfj"
         android:textColor="@color/black"
         android:id="@+id/tv_nethttp"
         />
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/vi_nethttp"/>
 </LinearLayout>
