@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.iflytek.mscv5plusdemo.multilevelmenu.MulmenuActivity">
+    tools:context="com.iflytek.demo.multilevelmenu.MulmenuActivity">
     <include layout="@layout/titlebar_activity" />
-    <com.iflytek.mscv5plusdemo.multilevelmenu.ExpandTabView
+    <com.iflytek.demo.multilevelmenu.ExpandTabView
         android:id="@+id/expandtab_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.iflytek.mscv5plusdemo.buttombar.ButtomBarActivity">
+    tools:context="com.iflytek.demo.buttombar.ButtomBarActivity">
     <include layout="@layout/titlebar_activity" />
     <FrameLayout
         android:id="@+id/layFrame"

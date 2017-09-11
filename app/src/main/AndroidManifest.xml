@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.iflytek.mscv5plusdemo">
+    package="com.iflytek.demo">
 
     <uses-sdk android:minSdkVersion="8" />
-
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,23 +15,36 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <!--照相机权限-->
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
+        xmlns:tools="http://schemas.android.com/tools"
         android:icon="@drawable/icon"
         android:label="DEMO"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainTActivity">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:theme">
+        <activity android:name="com.iflytek.demo.MainTActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.iflytek.mscv5plusdemo.multilevelmenu.MulmenuActivity"></activity>
+        <activity android:name="com.iflytek.demo.multilevelmenu.MulmenuActivity"></activity>
         
-        <activity android:name="com.iflytek.mscv5plusdemo.httpdemo.NetActivity"></activity>
-        <activity android:name=".titlebar.TitleBarActivity"></activity>
-        <activity android:name=".buttombar.ButtomBarActivity"></activity>
-        
+        <activity android:name="com.iflytek.demo.httpdemo.NetActivity"></activity>
+        <activity android:name="com.iflytek.demo.titlebar.TitleBarActivity"></activity>
+        <activity android:name="com.iflytek.demo.buttombar.ButtomBarActivity"></activity>
+        <activity android:name="com.iflytek.demo.view.CustomActivity"></activity>
+        <activity android:name="com.iflytek.demo.mvp.view.MainActivity"></activity>
+        <activity android:name="com.iflytek.demo.photo.PhotoActivity"></activity>
+        <activity android:name="com.iflytek.demo.filesave.FiileActivity"></activity>
+        <activity android:name="com.iflytek.demo.jni.JNIActivity"></activity>
+        <activity android:name="com.iflytek.demo.wifi.WIFIActivity"></activity>
     </application>
 
 </manifest>

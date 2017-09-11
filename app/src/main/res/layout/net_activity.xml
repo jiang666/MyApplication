@@ -12,6 +12,27 @@
         android:layout_height="wrap_content"
         android:text="网络请求"
         android:textSize="18sp"/>
+    <Button
+        android:id="@+id/btn_adddata"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add data"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="delete" />
+
+    <Button
+        android:id="@+id/btn_down"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="download"
+        android:textSize="18sp"/>
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -24,4 +45,5 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:id="@+id/vi_nethttp"/>
+
 </LinearLayout>

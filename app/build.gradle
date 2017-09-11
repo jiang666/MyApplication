@@ -2,17 +2,24 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
     aaptOptions {
         cruncherEnabled = false
         useNewCruncher = false
     }
     defaultConfig {
-        applicationId "com.example.jianglei.com.iflytek.mscv5plusdemo"
-        minSdkVersion 15
+        applicationId "com.example.jianglei.com.iflytek.demo"
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        ndk{
+            moduleName "Testjni"
+        }
+        sourceSets.main{
+            jni.srcDirs = []
+            jniLibs.srcDir "src/main/libs"
+        }
     }
     buildTypes {
         release {
@@ -23,7 +30,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
@@ -34,6 +41,12 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    //compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'io.reactivex:rxandroid:1.2.1'
+    //compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'org.apache.httpcomponents:httpcore:4.4.4'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    //compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
+

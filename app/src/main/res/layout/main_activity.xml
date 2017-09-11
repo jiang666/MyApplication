@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/titlebar_activity" />
+    <TextView
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_mainactivity"/>
     <Button
         android:id="@+id/recycler_add"
         android:layout_width="match_parent"
@@ -14,8 +19,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="delete"/>
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recylerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+   <!-- <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recylerview"/>
+        android:id="@+id/recylerview"/>-->
 </LinearLayout>

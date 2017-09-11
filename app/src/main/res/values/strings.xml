@@ -4,6 +4,11 @@
     <string name="no_data">没有找到符合条件的房源</string>
     <string name="hello_world">hellow_world</string>
     <string name="app_name">appdemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="city">城市:</string>
+    <string name="wd">\n风向:</string>
+    <string name="ws">\n风级:</string>
+    <string name="time">\n发布时间:</string>
     <!--&lt;!&ndash; 请替换成在语音云官网申请的appid &ndash;&gt;
     <string name="app_id">5832c5db</string>
     <string name="example_explain">本示例为讯飞语音Android平台开发者提供语音听写、语法识别、语义理解和语音合成等代码样例，旨在让用户能够依据该示例快速开发出基于语音接口的应用程序。</string>

@@ -11,6 +11,6 @@
      android:background="@drawable/item_button"
      android:id="@+id/id_num"
      android:textColor="@color/blue"
-     android:text="23"/>
+     android:text="foot"/>
 
 </FrameLayout >
