@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:openxu="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <Button
+        android:id="@+id/button" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="按钮1"
+        android:layout_x="0px" android:layout_y="0px" />
+    <com.iflytek.demo.view.MarkingView
+        android:layout_marginLeft="100dp"
+        android:layout_height="100dp"
+        android:layout_width="100dp"
+        openxu:topCorlor="#c3b576"
+        openxu:bottomCorlor="#e1dbbb"
+        />
+
+    <!--<Button android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content" android:text="按钮2"
+
+        android:layout_x="20px" android:layout_y="20px" />
+
+    <Button android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content" android:text="按钮3"
+
+        android:layout_x="40px" android:layout_y="40px" />
+
+    <Button android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content" android:text="按钮4"
+
+        android:layout_x="60px" android:layout_y="60px" />-->
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</android.support.v7.widget.LinearLayoutCompat>

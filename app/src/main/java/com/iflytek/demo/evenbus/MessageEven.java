@@ -5,11 +5,11 @@ package com.iflytek.demo.evenbus;
  */
 
 public class MessageEven {
-    public final String message;
-    public MessageEven(String message) {
+    public final long message;
+    public MessageEven(long message) {
         this.message = message;
     }
-    public String getMsg(){
+    public long getMsg(){
         return message;
     }
 }

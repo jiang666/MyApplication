@@ -1,27 +1,45 @@
 package com.iflytek.demo;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.os.StatFs;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.iflytek.demo.bluetooth.BluetoothActivity;
 import com.iflytek.demo.buttombar.ButtomBarActivity;
 import com.iflytek.demo.evenbus.MessageEven;
+import com.iflytek.demo.face.ConStant;
+import com.iflytek.demo.face.FACEactivity;
+import com.iflytek.demo.face.FileUtil;
+import com.iflytek.demo.face.LocalSDK;
 import com.iflytek.demo.filesave.FiileActivity;
 import com.iflytek.demo.httpdemo.NetActivity;
 import com.iflytek.demo.jni.JNIActivity;
 import com.iflytek.demo.multilevelmenu.MulmenuActivity;
 import com.iflytek.demo.mvp.view.MainActivity;
+import com.iflytek.demo.pdf.PDFactivity;
 import com.iflytek.demo.photo.PhotoActivity;
-import com.iflytek.demo.recyclerviewdemo.EndLessOnScrollListener;
+import com.iflytek.demo.recorder.RecorderActivity;
+import com.iflytek.demo.recyclerviewdemo.FullyGridLayoutManager;
 import com.iflytek.demo.recyclerviewdemo.MyRecyclerAdapter;
 import com.iflytek.demo.titlebar.TitleBarActivity;
 import com.iflytek.demo.view.CustomActivity;
@@ -29,7 +47,13 @@ import com.iflytek.demo.wifi.WIFIActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -43,11 +67,70 @@ public class MainTActivity extends AppCompatActivity {
     private Button recycler_add;
     private  Button recycler_delete;
     private SwipeRefreshLayout mRefreshLayout;
+    private ProgressBar pb;
+    private LocalSDK mFaceSDK = null;
+    private boolean m_bInit = false;
 
+    private static final String PREV_VERSION_CODE = "prev_version_code";
+    protected static final int COPY_FAIL = 0;
+    protected static final int DIALOG_CANCEL = 1;
+    String[] models;
+    private ProgressDialog dialog = null;
+    private Handler myHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            if (msg.what == COPY_FAIL) {
+                hideProgress();
+                new AlertDialog.Builder(MainTActivity.this)
+                        .setMessage("模型解压异常,请手工导入!")
+                        .setNegativeButton("确定",
+                                new AlertDialog.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface arg0,
+                                                        int arg1) {
+                                        arg0.dismiss();
+                                        finish();
+                                    }
+                                }).show();
+            }
+            if (msg.what == DIALOG_CANCEL) {
+                hideProgress();
+                initSDk();
+            }
+
+            super.handleMessage(msg);
+        }
+
+    };
+    private void hideProgress() {
+        if (dialog != null && dialog.isShowing())
+            dialog.dismiss();
+
+    }
+
+    protected void initSDk() {
+        mFaceSDK = LocalSDK.getInstance(this);
+
+        // 创建句柄，句柄只需要创建一次，程序启动创建，退出时再销毁
+        int iRet = mFaceSDK.CreateHandles(ConStant.sLicence,
+                ConStant.faceMinSize, ConStant.faceMaxSize, ConStant.sModelDir);
+        if (iRet != 0) {
+            // 创建句柄失败，请根据错误码检测原因
+            makeToast("创建句柄失败，错误码: " + iRet);
+            m_bInit = false;
+        } else {
+            m_bInit = true;
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        pb = (ProgressBar)findViewById(R.id.mProgressBar);
+        setProgressBarIndeterminateVisibility(true);
         recyclerView = (RecyclerView)findViewById(R.id.recylerview);
         mRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.layout_swipe_refresh);
         recycler_delete = (Button)findViewById(R.id.recycler_delete);
@@ -57,7 +140,18 @@ public class MainTActivity extends AppCompatActivity {
         recycler_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recycleAdapter.removeData(1);
+                try {
+                    TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    String deviceId = tm.getDeviceId();
+                    Log.e("-----------",deviceId);
+                }catch (Exception e){
+                    Log.e("-----------",e.toString());
+                }
+
+                Log.e("-----------",getSDAvailableSize()+";"+getSDTotalSize());
+                Log.e("============",android.os.Build.DISPLAY+";"+android.os.Build.ID+";"+android.os.Build.BOOTLOADER+";"+android.os.Build.VERSION.CODENAME+
+                        ";"+android.os.Build.DEVICE+";"+android.os.Build.HARDWARE+";"+android.os.Build.RADIO+";"+android.os.Build.VERSION.INCREMENTAL+";"+ Build.VERSION.SDK);
+                //recycleAdapter.removeData(1);
             }
         });
 
@@ -81,8 +175,9 @@ public class MainTActivity extends AppCompatActivity {
         recycleAdapter.setOnItemClickLitener(new MyRecyclerAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(MainTActivity.this, mDatas.get(position) + " click",
-                        Toast.LENGTH_SHORT).show();
+                //AlertDialogHelper.nextBuilder(MainTActivity.this,mDatas.get(position) + " click","111111111111","000000");
+                /*Toast.makeText(MainTActivity.this, mDatas.get(position) + " click",
+                        Toast.LENGTH_SHORT).show();*/
                 intoItem(position);
             }
 
@@ -96,20 +191,22 @@ public class MainTActivity extends AppCompatActivity {
        /* recycler_add.setVisibility(View.GONE);
         recycler_delete.setVisibility(View.GONE);*/
         //LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,4);
+        FullyGridLayoutManager layoutManager = new FullyGridLayoutManager(this,4);
         //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
         //设置布局管理器
+        layoutManager.setOrientation(FullyGridLayoutManager.VERTICAL);
+        layoutManager.setSmoothScrollbarEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         /**
          * 监听addOnScrollListener这个方法，新建我们的EndLessOnScrollListener
          * 在onLoadMore方法中去完成上拉加载的操作
          * */
-        recyclerView.addOnScrollListener(new EndLessOnScrollListener(layoutManager) {
+        /*recyclerView.addOnScrollListener(new EndLessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
                 loadMoreData();
             }
-        });
+        });*/
         //设置为垂直布局，这也是默认的
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         //设置Adapter
@@ -124,21 +221,112 @@ public class MainTActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        try {
+            models = this.getAssets().list(ConStant.ASSERT_MODULE_DIR);
+            copyModules(103, 103);
+            //PreferencesUtils.putInt(this, PREV_VERSION_CODE, versionCode);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+    // 预加载CWModels数据
+    public void copyModules(int versionCode, int prevVersionCode) {
+
+        // 检测模型是否存在以及程序verisonCode是否不一样
+        if (!checkModels(models, ConStant.sModelDir)
+                || versionCode != prevVersionCode) {
+            dialog = ProgressDialog.show(MainTActivity.this, "",
+                    "正在努力加载数据，请稍等...", true);
+            // 从assets复制模型文件到指定路劲
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    FileUtil.mkDir(ConStant.sModelDir);
+                    for (int i = 0; i < models.length; i++) {
+                        try {
+                            assetsDataToSD(ConStant.ASSERT_MODULE_DIR,
+                                    models[i], ConStant.sModelDir);//
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (!checkModels(models, ConStant.sModelDir)) {
+                        myHandler.sendEmptyMessage(COPY_FAIL);
+                    }else{
+                        myHandler.sendEmptyMessageDelayed(DIALOG_CANCEL,500);
+                    }
+
+
+                }
+            }).start();
+        } else {
+            myHandler.sendEmptyMessageDelayed(DIALOG_CANCEL, 500);
+        }
+    }
+    // 拷贝assets下的文件的方法
+    private void assetsDataToSD(String assertDir, String fileName,
+                                String modelDir) throws IOException {
+
+        String outputPath = modelDir + File.separator + fileName;
+        InputStream myInput;
+        OutputStream myOutput = new FileOutputStream(outputPath);
+
+        String assertFilePath = assertDir + File.separator + fileName;
+        myInput = this.getAssets().open(assertFilePath);
+        byte[] buffer = new byte[1024];
+        int length = myInput.read(buffer);
+        while (length > 0) {
+            myOutput.write(buffer, 0, length);
+            length = myInput.read(buffer);
+        }
+
+        myOutput.flush();
+        myInput.close();
+        myOutput.close();
+    }
+    /**
+     * 检查模型是否缺失
+     *
+     * @param models
+     * @param modelDir
+     * @return false 模型缺少 true 不缺失
+     */
+    public boolean checkModels(String[] models, String modelDir) {
+
+        for (String str : models) {
+            File file = new File(modelDir + File.separator + str);
+            if (!file.exists() || file.length() == 0)
+                return false;
+        }
+        return true;
+    }
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        // 退出时销毁句柄
+        mFaceSDK.DestoryHandles();
         EventBus.getDefault().unregister(this);
     }
-
-    @Subscribe
-    public void onMessageEvent(MessageEven event){
-        Toast.makeText(getApplication(), event.message, Toast.LENGTH_SHORT).show();
+    @Subscribe(threadMode = ThreadMode.MAIN) //默认方式, 在发送线程执行
+    public void onMessageEvent(MessageEven event) {
+        Log.e("===============",event.getMsg()+"");
+        //pb.setProgress((int)event.getMsg());
     }
+   /* @Subscribe
+    public void onMessageEvent(MessageEven event){
+
+        Toast.makeText(getApplication(), event.message, Toast.LENGTH_SHORT).show();
+    }*/
 
 
     private void loadMoreData(){
         for (int i =0; i < 10; i++){
             mDatas.add("嘿，我是“上拉加载”生出来的"+i);
-            recycleAdapter.notifyDataSetChanged();
+            //recycleAdapter.notifyDataSetChanged();
         }
     }
     private void intoItem(int position){
@@ -185,6 +373,26 @@ public class MainTActivity extends AppCompatActivity {
                 intent = new Intent(this, WIFIActivity.class);
                 startActivity(intent);
                 break;
+            case "BLUETOOTH":
+                intent = new Intent(this, BluetoothActivity.class);
+                startActivity(intent);
+                break;
+            case "录制视频":
+                intent = new Intent(this, RecorderActivity.class);
+                startActivity(intent);
+                break;
+            case "TEST":
+                intent = new Intent(this, TestActivity.class);
+                startActivity(intent);
+                break;
+            case "PDF":
+                intent = new Intent(this, PDFactivity.class);
+                startActivity(intent);
+                break;
+            case "人脸识别":
+                intent = new Intent(this, FACEactivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -223,10 +431,43 @@ public class MainTActivity extends AppCompatActivity {
                 case 9:
                     mDatas.add("jni");
                     break;
+                case 10:
+                    mDatas.add("BLUETOOTH");
+                    break;
+                case 11:
+                    mDatas.add("录制视频");
+                    break;
+                case 12:
+                    mDatas.add("TEST");
+                    break;
+                case 13:
+                    mDatas.add("PDF");
+                    break;
+                case 14:
+                    mDatas.add("人脸识别");
+                    break;
                 default:
                     mDatas.add("this"+i);
                     break;
             }
         }
+    }
+    private final String getSDTotalSize() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return Formatter.formatFileSize(this, blockSize * totalBlocks);
+    }
+
+    private final String getSDAvailableSize() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        int blockSize = stat.getBlockSize();
+        int availableBlocks = stat.getAvailableBlocks();
+        return Formatter.formatFileSize(this, blockSize * availableBlocks) ;
+    }
+    public void	makeToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }

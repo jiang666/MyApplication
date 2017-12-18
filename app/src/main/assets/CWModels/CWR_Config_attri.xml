@@ -1,0 +1,13 @@
+<VERSION>170313_AGE</VERSION>
+<CloudWalk>
+	<MODEL>
+		<NETS>
+			<NET>
+				<Model>age.bin</Model>
+				<Weights>ageWeight.bin</Weights>
+				<OutFeature>output</OutFeature>
+			</NET>
+		</NETS>
+	</MODEL>
+</CloudWalk>
+

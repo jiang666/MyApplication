@@ -3,7 +3,10 @@
 <resources>
     <!-- 画面背景色 -->
     <drawable name="layout_backgroud">#000000</drawable>
-    
+    <drawable name="alert_bt_check">#333333</drawable>
+    <drawable name="alert_bt_nomal">#666666</drawable>
+    <drawable name="alert_bt_nomal_no">#333131</drawable>
+    <drawable name="alert_bt_nomal_yes">#413f3f</drawable>
     <!-- 分割线背景色 -->
     <drawable name="line_background">#161823</drawable>
 

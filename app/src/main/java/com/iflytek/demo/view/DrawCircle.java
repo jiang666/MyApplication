@@ -42,7 +42,7 @@ public class DrawCircle extends View {
    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-         canvas.drawColor(Color.WHITE);
+       canvas.drawColor(Color.WHITE);
         Paint paint=new Paint();
         Bitmap bitmap= BitmapFactory.decodeResource(this.getResources(), R.drawable.setting);
        image_hight = bitmap.getHeight();
@@ -59,8 +59,9 @@ public class DrawCircle extends View {
         //绘制圆
         canvas.drawCircle(x,y,30,paint);*/
     }
-
-
+   /* public boolean dispatchTouchEvent(){
+        return false;
+    }*/
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {

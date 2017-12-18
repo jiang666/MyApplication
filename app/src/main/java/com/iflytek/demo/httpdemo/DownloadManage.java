@@ -1,7 +1,12 @@
 package com.iflytek.demo.httpdemo;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
+
+import com.iflytek.demo.evenbus.MessageEven;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,7 +35,8 @@ public class DownloadManage {
             fileSuffix = ".png";
         }
         // 其他类型同上 自己判断加入.....
-        String path = context.getExternalFilesDir(null) + File.separator + System.currentTimeMillis() + fileSuffix;
+        String path = Environment.getExternalStorageDirectory().getPath() + File.separator+"SouSou_Photo/" +"ooooooo" + fileSuffix;
+        //String path = context.getExternalFilesDir(null) + File.separator + "ooooooo" + fileSuffix;
         Log.d(TAG, "path:>>>>"+ path);
         try {
             // todo change the file location/name according to your needs
@@ -50,9 +56,9 @@ public class DownloadManage {
                     }
                     outputStream.write(fileReader, 0, read);
                     fileSizeDownloaded += read;
+                    EventBus.getDefault().post(new MessageEven(fileSizeDownloaded*100/fileSize));
                     Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
                 }
-
                 outputStream.flush();
 
 

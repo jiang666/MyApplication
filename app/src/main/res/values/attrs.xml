@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MarkingView">
+        <attr name="ringWidth" format="dimension"/>
+        <attr name="startAngle" format="integer"/>
+        <attr name="endAngle" format="integer"/>
+        <attr name="duation" format="integer"/>
+        <attr name="bottomCorlor" format="color"/>
+        <attr name="centerCorlor" format="color"/>
+        <attr name="topCorlor" format="color"/>
+        <attr name="textCorlor" format="color"/>
+    </declare-styleable>
+</resources>

@@ -28,7 +28,6 @@ public class MyLinearLayout extends LinearLayout {
 	public void setDragLayout(Draglayout layout){
 		this.layout = layout;
 	}
-	
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		if(layout.getStatus() == Status.Close){
 			// 如果DragLayout是关闭状态， 按原本拦截判断处理

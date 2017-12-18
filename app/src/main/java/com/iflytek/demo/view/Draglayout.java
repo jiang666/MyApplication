@@ -2,7 +2,7 @@ package com.iflytek.demo.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
@@ -14,10 +14,12 @@ import android.widget.FrameLayout;
 import com.nineoldandroids.view.ViewHelper;
 
 /**
- * Created by jianglei on 2017/9/2.
+ * 侧滑面板
+ * @author poplar
+ *
  */
-
 public class Draglayout extends FrameLayout {
+
     private ViewDragHelper mHelper;
 
     // 控件的三个状态
@@ -234,7 +236,7 @@ public class Draglayout extends FrameLayout {
         ViewHelper.setScaleY(mMainContent, evaluate(percent, 1.0f, 0.8f));
 
         //		* 背景动画： 亮度变化
-        getBackground().setColorFilter((Integer)evaluateColor(percent, Color.BLACK, Color.TRANSPARENT), PorterDuff.Mode.SRC_OVER);
+        getBackground().setColorFilter((Integer)evaluateColor(percent, Color.BLACK, Color.TRANSPARENT), Mode.SRC_OVER);
     }
 
     /**
@@ -382,4 +384,6 @@ public class Draglayout extends FrameLayout {
 
     }
 
+
 }
+

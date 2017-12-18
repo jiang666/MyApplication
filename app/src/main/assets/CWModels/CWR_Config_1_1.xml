@@ -1,0 +1,26 @@
+<VERSION>1701019_cpu_faster</VERSION>
+<ModelType>modelp</ModelType>
+<CloudWalk>	
+ 	<MODELP>
+		<MODEL>
+			<NETS>
+				<NET>
+					<Model>feature.bin</Model>
+					<Weights>featureWeight.bin</Weights>
+					<OutFeature>feature_norm</OutFeature>
+				</NET>
+			</NETS>
+			<PCA> 
+				<Model>pca_proj.bin</Model>
+			</PCA>
+			<LDA> 
+				<Mu>-141.9</Mu>
+				<Sigma>0.0213</Sigma>
+				<Model>mdl.bin</Model>
+			</LDA>
+			<TRANS> 
+				<Flip>false</Flip>
+			</TRANS>
+		</MODEL>
+	</MODELP>
+</CloudWalk>

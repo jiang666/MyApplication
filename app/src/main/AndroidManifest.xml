@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iflytek.demo">
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="19" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -15,19 +15,25 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 往SDCard写入数据权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!--照相机权限-->
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        xmlns:tools="http://schemas.android.com/tools"
         android:icon="@drawable/icon"
+        android:name=".MApplication"
         android:label="DEMO"
-        android:theme="@style/AppTheme"
-        tools:replace="android:icon, android:theme">
+        android:theme="@style/AppTheme">
+
         <activity android:name="com.iflytek.demo.MainTActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,8 +41,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.iflytek.demo.multilevelmenu.MulmenuActivity"></activity>
-        
-        <activity android:name="com.iflytek.demo.httpdemo.NetActivity"></activity>
         <activity android:name="com.iflytek.demo.titlebar.TitleBarActivity"></activity>
         <activity android:name="com.iflytek.demo.buttombar.ButtomBarActivity"></activity>
         <activity android:name="com.iflytek.demo.view.CustomActivity"></activity>
@@ -45,6 +49,16 @@
         <activity android:name="com.iflytek.demo.filesave.FiileActivity"></activity>
         <activity android:name="com.iflytek.demo.jni.JNIActivity"></activity>
         <activity android:name="com.iflytek.demo.wifi.WIFIActivity"></activity>
+        <activity android:name="com.iflytek.demo.bluetooth.BluetoothActivity"></activity>
+        <activity android:name="com.iflytek.demo.TestActivity"></activity>
+        <activity android:name="com.iflytek.demo.recorder.RecorderActivity"></activity>
+        <activity android:name="com.iflytek.demo.server.ServerActivity"></activity>
+        <activity android:name="com.iflytek.demo.httpdemo.NetActivity"></activity>
+        <activity android:name="com.iflytek.demo.pdf.PDFactivity"></activity>
+        <activity android:name="com.iflytek.demo.face.FACEactivity"></activity>
+        <service
+            android:name=".server.TestServer"
+            android:process=":rrtty"></service>
     </application>
 
 </manifest>

@@ -35,7 +35,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
     }
-
     //填充onCreateViewHolder方法返回的holder中的控件
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -43,7 +42,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = holder.getLayoutPosition();
+                    int pos = holder.getPosition();
                     mOnItemClickLitener.onItemClick(holder.itemView,pos);
                 }
             });
@@ -51,7 +50,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                 @Override
                 public boolean onLongClick(View v) {
 
-                    int pos = holder.getLayoutPosition();
+                    int pos = holder.getPosition();
                     mOnItemClickLitener.onItemLongClick(holder.itemView, pos);
                     return false;
                 }

@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 24
+    buildToolsVersion '26.0.2'
+    //useOldManifestMerger true
     aaptOptions {
         cruncherEnabled = false
         useNewCruncher = false
     }
     defaultConfig {
-        applicationId "com.example.jianglei.com.iflytek.demo"
-        minSdkVersion 16
+        applicationId "com.iflytek.demo"
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -42,11 +43,20 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     //compile 'io.reactivex.rxjava2:rxjava:2.0.8'
-    compile 'io.reactivex:rxandroid:1.2.1'
+    //compile 'io.reactivex:rxandroid:1.2.1'
     //compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'org.apache.httpcomponents:httpcore:4.4.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
     //compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.+'
+    compile 'com.github.barteksc:android-pdf-viewer:2.8.1'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile ('com.j256.ormlite:ormlite-android:4.48'){
+        exclude module: 'support-compat'
+    }
+    //compile 'zlc.season:rxdownload:1.1.0'
+    //compile(name: 'LiteAVSDK_Professional_3.4.1757', ext: 'aar')
+    //compile project(':librarydemo')
 }
 

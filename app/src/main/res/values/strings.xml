@@ -9,6 +9,12 @@
     <string name="wd">\n风向:</string>
     <string name="ws">\n风级:</string>
     <string name="time">\n发布时间:</string>
+    <string name="download_alert">Downloading now .please wait.</string>
+    <string name="alert_profile_register_title">ARE YOU SURE?</string>
+    <string name="alert_profile_register_des">This will remove the speaker from your Libratone account</string>
+    <string name="alert_profile_setting_hints">You\'ll see the tip all the time when you enable this</string>
+    <string name="alert_setname_fragment_char">Character not supported</string>
+    <string name="alert_setname_fragment_num">Max length exceeded</string>
     <!--&lt;!&ndash; 请替换成在语音云官网申请的appid &ndash;&gt;
     <string name="app_id">5832c5db</string>
     <string name="example_explain">本示例为讯飞语音Android平台开发者提供语音听写、语法识别、语义理解和语音合成等代码样例，旨在让用户能够依据该示例快速开发出基于语音接口的应用程序。</string>

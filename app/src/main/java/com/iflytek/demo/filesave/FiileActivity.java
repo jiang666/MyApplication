@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.iflytek.demo.R;
 
-import org.apache.http.util.EncodingUtils;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,8 +62,13 @@ public class FiileActivity extends Activity {
     public void save(String text)
     {
         try {
-            String string = getCacheDir().toString();
-            FileOutputStream outStream=this.openFileOutput("a.txt",Context.MODE_WORLD_READABLE);
+            //String string = getCacheDir().toString();
+            ///data/user/0/com.example.jianglei.com.iflytek.demo/cache
+            //String string = getExternalCacheDir().toString();
+            ///storage/emulated/0/Android/data/com.example.jianglei.com.iflytek.demo/cache
+            String string = Environment.getExternalStorageDirectory().toString();
+            ///storage/emulated/0
+            FileOutputStream outStream=this.openFileOutput("b.txt",Context.MODE_WORLD_READABLE);
             outStream.write(text.getBytes());
             outStream.close();
             Toast.makeText(FiileActivity.this,"Saved_"+ string,Toast.LENGTH_LONG).show();
@@ -79,10 +81,11 @@ public class FiileActivity extends Activity {
     }
     /**
     * 从文本中读取json字符串，转化为bean，在从bean中取值
+     * 读取的是NetActivity中存储的文件
     * */
     public void read(){
-        //文件的读取
-        String fileName = "a.txt";
+        /*//文件的读取
+        String fileName = "b.txt";
         //也可以用String fileName = "mnt/sdcard/Y.txt";
         String res="";
         try{
@@ -93,15 +96,16 @@ public class FiileActivity extends Activity {
             byte [] buffer = new byte[length];
             fin.read(buffer);
             res = EncodingUtils.getString(buffer, "UTF-8");
-            res.getBytes();
             fin.close();
         }catch(Exception e){
             e.printStackTrace();
-        }
-        Gson gson = new Gson();
+        }*/
+        //text.setText(res);
+        //String fileName = "a.txt";时，下面
+        /*Gson gson = new Gson();
         TestBean bean = (TestBean)gson.fromJson(res, TestBean.class);
 
-        text.setText(bean.getApiKey());
+        text.setText(bean.getApiKey());*/
     }
 
 }

@@ -7,6 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -24,7 +25,8 @@ public class AppClient {
                 .build();
         if (mRetrofit == null) {
             mRetrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.141/")//http://www.weather.com.cn/
+                    .baseUrl("http://192.168.0.27:8080/")//http://www.weather.com.cn/
+                    //.baseUrl("http://192.168.1.145/")
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -33,7 +35,7 @@ public class AppClient {
         return mRetrofit;
     }
     public interface ApiStores {
-
+        @Headers("Content-Type:application/json")
         @GET("{apiName}.html")//adat/sk/{cityId}.html
         Call<JsonDemo> getWeather(@Path("apiName") String apiName);
 
