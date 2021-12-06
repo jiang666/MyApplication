@@ -2,6 +2,7 @@ package com.iflytek.demo.recyclerviewdemo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mDatas.size() + 1;//添加上拉加载
     }
 
     @Override
     public int getItemViewType(int position) {
+        if (position == mDatas.size()) {
+            return 3;
+        }
         int num = position % 2;
         if (num == 0) {
             return 0;
@@ -47,14 +51,18 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (viewType == 0) {   //创建第一种holder
             View view = inflater.inflate(R.layout.item_main,parent, false);
             return new MyViewHolder(view);
-        } else  {
+        } else if(viewType ==1) {
             View view = inflater.inflate(R.layout.item_main_two,parent, false);
             return new MyViewHoldertwo(view);
+        }else {
+            View view = inflater.inflate(R.layout.item_main_three,parent, false);
+            return new MyViewHolderThree(view);
         }
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int i) {
+        Log.e("--------","viewtype = " + viewHolder.getItemViewType());
         if (viewHolder instanceof MyViewHolder) {
             if(mOnItemClickLitener != null){
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +105,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
             ((MyViewHoldertwo)viewHolder).tv.setText( mDatas.get(i));
             ((MyViewHoldertwo)viewHolder).tv.setTextColor(mContext.getResources().getColor(R.color.brown));
+        }else if(viewHolder instanceof MyViewHolderThree){
+
         }
 
     }
@@ -116,6 +126,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tv;
 
         public MyViewHoldertwo(View view) {
+            super(view);
+            tv=(TextView) view.findViewById(R.id.id_num);
+        }
+
+    }
+    class MyViewHolderThree extends RecyclerView.ViewHolder {
+
+        TextView tv;
+
+        public MyViewHolderThree(View view) {
             super(view);
             tv=(TextView) view.findViewById(R.id.id_num);
         }

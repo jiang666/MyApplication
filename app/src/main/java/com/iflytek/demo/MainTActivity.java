@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StatFs;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -38,9 +39,11 @@ import com.iflytek.demo.mvp.view.MainActivity;
 import com.iflytek.demo.pdf.PDFactivity;
 import com.iflytek.demo.photo.PhotoActivity;
 import com.iflytek.demo.recorder.RecorderActivity;
+import com.iflytek.demo.recyclerviewdemo.EndLessOnScrollListener;
 import com.iflytek.demo.recyclerviewdemo.FullyGridLayoutManager;
 import com.iflytek.demo.recyclerviewdemo.MyRecyclerAdapter;
 import com.iflytek.demo.titlebar.TitleBarActivity;
+import com.iflytek.demo.util.AlertDialogHelper;
 import com.iflytek.demo.view.CustomActivity;
 import com.iflytek.demo.wifi.WIFIActivity;
 
@@ -56,7 +59,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
- * 云从人脸识别
+ * 云从人脸识别解压模型
  */
 
 public class MainTActivity extends AppCompatActivity {
@@ -103,6 +106,8 @@ public class MainTActivity extends AppCompatActivity {
         }
 
     };
+    private AlertDialogHelper alertdialog;
+
     private void hideProgress() {
         if (dialog != null && dialog.isShowing())
             dialog.dismiss();
@@ -150,8 +155,8 @@ public class MainTActivity extends AppCompatActivity {
                 }
 
                 Log.e("-----------",getSDAvailableSize()+";"+getSDTotalSize());
-                Log.e("============",android.os.Build.DISPLAY+";"+android.os.Build.ID+";"+android.os.Build.BOOTLOADER+";"+android.os.Build.VERSION.CODENAME+
-                        ";"+android.os.Build.DEVICE+";"+android.os.Build.HARDWARE+";"+android.os.Build.RADIO+";"+android.os.Build.VERSION.INCREMENTAL+";"+ Build.VERSION.SDK);
+                Log.e("============", Build.DISPLAY+";"+ Build.ID+";"+ Build.BOOTLOADER+";"+ Build.VERSION.CODENAME+
+                        ";"+ Build.DEVICE+";"+ Build.HARDWARE+";"+ Build.RADIO+";"+ Build.VERSION.INCREMENTAL+";"+ Build.VERSION.SDK);
                 //recycleAdapter.removeData(1);
             }
         });
@@ -175,11 +180,31 @@ public class MainTActivity extends AppCompatActivity {
         });
         recycleAdapter.setOnItemClickLitener(new MyRecyclerAdapter.OnItemClickLitener() {
             @Override
-            public void onItemClick(View view, int position) {
-                //AlertDialogHelper.nextBuilder(MainTActivity.this,mDatas.get(position) + " click","111111111111","000000");
+            public void onItemClick(View view, final int position) {
+                alertdialog = AlertDialogHelper.askBuilder(MainTActivity.this,mDatas.get(position) + " click","111111111111");
                 /*Toast.makeText(MainTActivity.this, mDatas.get(position) + " click",
                         Toast.LENGTH_SHORT).show();*/
-                intoItem(position);
+                alertdialog.setOnButtonClickListener(new AlertDialogHelper.OnButtonClickListener() {
+                    @Override
+                    public void onClickNo() {
+
+                    }
+
+                    @Override
+                    public void onClickYes() {
+                        intoItem(position);
+                    }
+
+                    @Override
+                    public void onClickNext() {
+
+                    }
+
+                    @Override
+                    public void onAnimationOver() {
+
+                    }
+                });
             }
 
             @Override
@@ -202,7 +227,7 @@ public class MainTActivity extends AppCompatActivity {
          * 监听addOnScrollListener这个方法，新建我们的EndLessOnScrollListener
          * 在onLoadMore方法中去完成上拉加载的操作
          * */
-        /*recyclerView.addOnScrollListener(new EndLessOnScrollListener(layoutManager) {
+        /*recyclerView.setOnScrollListener(new EndLessOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
                 loadMoreData();
@@ -218,6 +243,35 @@ public class MainTActivity extends AppCompatActivity {
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         EventBus.getDefault().register(this);
+
+        /*recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) { //当前状态为停止滑动
+
+                    if (!recyclerView.canScrollVertically(1)) { // 到达底部
+                        myHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mDatas.add( "嘿，我是“上拉加载”生出来的");
+                                //数据重新加载完成后，提示数据发生改变，并且设置现在不在刷新
+                                recycleAdapter.notifyDataSetChanged();
+                                mRefreshLayout.setRefreshing(false);
+                                Toast.makeText(getContext(), "到达底部", Toast.LENGTH_SHORT).show();
+                            }
+                        },5000);
+
+                    } else if (!recyclerView.canScrollVertically(-1)) { // 到达顶部
+                        Toast.makeText(getContext(), "到达顶部", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });*/
 
     }
 
@@ -327,7 +381,7 @@ public class MainTActivity extends AppCompatActivity {
     private void loadMoreData(){
         for (int i =0; i < 10; i++){
             mDatas.add("嘿，我是“上拉加载”生出来的"+i);
-            //recycleAdapter.notifyDataSetChanged();
+            recycleAdapter.notifyDataSetChanged();
         }
     }
     private void intoItem(int position){
@@ -408,7 +462,7 @@ public class MainTActivity extends AppCompatActivity {
     }
     private void initData() {
         mDatas = new ArrayList<String>();
-        for ( int i=0; i < 20; i++) {
+        for ( int i=0; i < 100; i++) {
             switch (i) {
                 case 0:
                     mDatas.add("多级筛选");
