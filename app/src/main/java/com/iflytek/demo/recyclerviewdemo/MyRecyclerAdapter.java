@@ -15,7 +15,7 @@ import java.util.List;
  * Created by jianglei on 2017/2/24.
  */
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<String> mDatas;
     private Context mContext;
     private LayoutInflater inflater;
@@ -33,45 +33,72 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
-    }
-    //填充onCreateViewHolder方法返回的holder中的控件
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        if(mOnItemClickLitener != null){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = holder.getPosition();
-                    mOnItemClickLitener.onItemClick(holder.itemView,pos);
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    int pos = holder.getPosition();
-                    mOnItemClickLitener.onItemLongClick(holder.itemView, pos);
-                    return false;
-                }
-            });
+        int num = position % 2;
+        if (num == 0) {
+            return 0;
+        } else {
+            return 1;
         }
-        holder.tv.setText( mDatas.get(position));
-        holder.tv.setTextColor(mContext.getResources().getColor(R.color.black));
-        /*ViewGroup.LayoutParams lp=holder.tv.getLayoutParams();
-        Random random=new Random();
-
-        lp.height=100+random.nextInt(10)*20;
-        holder.tv.setLayoutParams(lp);*/
     }
+
     //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 0) {   //创建第一种holder
+            View view = inflater.inflate(R.layout.item_main,parent, false);
+            return new MyViewHolder(view);
+        } else  {
+            View view = inflater.inflate(R.layout.item_main_two,parent, false);
+            return new MyViewHoldertwo(view);
+        }
+    }
 
-        View view = inflater.inflate(R.layout.item_main,parent, false);
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int i) {
+        if (viewHolder instanceof MyViewHolder) {
+            if(mOnItemClickLitener != null){
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = ((MyViewHolder)viewHolder).getPosition();
+                        mOnItemClickLitener.onItemClick(viewHolder.itemView,pos);
+                    }
+                });
+                viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
 
-        MyViewHolder holder= new MyViewHolder(view);
-        return holder;
+                        int pos = viewHolder.getPosition();
+                        mOnItemClickLitener.onItemLongClick(viewHolder.itemView, pos);
+                        return false;
+                    }
+                });
+            }
+            ((MyViewHolder)viewHolder).tv.setText( mDatas.get(i));
+            ((MyViewHolder)viewHolder).tv.setTextColor(mContext.getResources().getColor(R.color.black));
+        } else if (viewHolder instanceof MyViewHoldertwo) {
+            if(mOnItemClickLitener != null){
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = ((MyViewHolder)viewHolder).getPosition();
+                        mOnItemClickLitener.onItemClick(viewHolder.itemView,pos);
+                    }
+                });
+                viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+
+                        int pos = ((MyViewHolder)viewHolder).getPosition();
+                        mOnItemClickLitener.onItemLongClick(viewHolder.itemView, pos);
+                        return false;
+                    }
+                });
+            }
+            ((MyViewHoldertwo)viewHolder).tv.setText( mDatas.get(i));
+            ((MyViewHoldertwo)viewHolder).tv.setTextColor(mContext.getResources().getColor(R.color.brown));
+        }
+
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -79,6 +106,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         TextView tv;
 
         public MyViewHolder(View view) {
+            super(view);
+            tv=(TextView) view.findViewById(R.id.id_num);
+        }
+
+    }
+    class MyViewHoldertwo extends RecyclerView.ViewHolder {
+
+        TextView tv;
+
+        public MyViewHoldertwo(View view) {
             super(view);
             tv=(TextView) view.findViewById(R.id.id_num);
         }

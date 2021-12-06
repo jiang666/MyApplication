@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -130,7 +129,7 @@ public class CrashHandlerUtil implements Thread.UncaughtExceptionHandler {
             public void run() {
                 Looper.prepare();
                 throwable.printStackTrace();
-                Toast.makeText(mContext, getCrashTip(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(mContext, getCrashTip(), Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }.start();

@@ -9,7 +9,6 @@
     <drawable name="alert_bt_nomal_yes">#413f3f</drawable>
     <!-- 分割线背景色 -->
     <drawable name="line_background">#161823</drawable>
-
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     

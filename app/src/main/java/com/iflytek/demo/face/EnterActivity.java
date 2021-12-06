@@ -6,7 +6,10 @@ package com.iflytek.demo.face;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -55,6 +58,10 @@ public class EnterActivity extends Activity implements OnClickListener {
     private EditText et_enter_name;
     private RadioButton rb_sex_man;
     private RadioButton rb_sex_woman;
+    //定义广播接收者
+    BroadcastReceiveForEnter receiver;
+    private ImageView back_capture;
+    private ImageView back_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +72,15 @@ public class EnterActivity extends Activity implements OnClickListener {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.enter_activity);
-        if (!checkCameraHardware(this)) {
-            Toast.makeText(EnterActivity.this, "相机不支持", Toast.LENGTH_SHORT)
-                    .show();
-        } else {
-            openCamera();
-            mTakePictureBtn = (Button) findViewById(R.id.button_capture);
-            mTakePictureBtn.setOnClickListener(this);
-        }
         iv_enter_image = (ImageView)findViewById(R.id.iv_enter_image);
         et_enter_cardNumber = (EditText)findViewById(R.id.et_enter_cardNumber);
         et_enter_name = (EditText)findViewById(R.id.et_enter_name);
         rb_sex_man = (RadioButton)findViewById(R.id.rb_sex_man);
         rb_sex_woman = (RadioButton)findViewById(R.id.rb_sex_woman);
+        back_capture = (ImageView)findViewById(R.id.back_capture);
+        back_home = (ImageView)findViewById(R.id.back_home);
+        back_home.setOnClickListener(this);
+        back_capture.setOnClickListener(this);
         rb_sex_man.setOnClickListener(this);
         rb_sex_woman.setOnClickListener(this);
         findViewById(R.id.btn_affirm).setOnClickListener(this);
@@ -97,9 +100,23 @@ public class EnterActivity extends Activity implements OnClickListener {
         if(mCamera == null){
             mCamera = getCameraInstance();
             if(mCamera!=null){
+                /*mPreview = new CameraPreview(EnterActivity.this, mCamera);
+                mPreview.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        mCamera.autoFocus(null);
+                        return false;
+                    }
+                });
+                mCameralayout = (FrameLayout) findViewById(R.id.camera_preview);
+                mCameralayout.addView(mPreview);
+                mCamera.startPreview();*/
                 mPreview = new CameraPreview(EnterActivity.this, mCamera);
                 mCameralayout = (FrameLayout) findViewById(R.id.camera_preview);
                 mCameralayout.addView(mPreview);
+                ImageView camerImage = new ImageView(this);
+                camerImage.setBackground(getResources().getDrawable(R.drawable.camera));
+                mCameralayout.addView(camerImage);
             }else {
                 makeToast("相机不可用");
             }
@@ -107,9 +124,34 @@ public class EnterActivity extends Activity implements OnClickListener {
     }
     @Override
     protected void onResume() {
+        if (!checkCameraHardware(this)) {
+            Toast.makeText(EnterActivity.this, "相机不支持", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            if(mCamera ==null){
+                openCamera();
+                mTakePictureBtn = (Button) findViewById(R.id.button_capture);
+                mTakePictureBtn.setOnClickListener(this);
+            }
+        }
         mFaceSDK = LocalSDK.getInstance(this);
+        receiver = new BroadcastReceiveForEnter();
+        //注册广播接收者,需要一个意图对象,也需要action参数,这里是定义Action参数
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("net.bunnytouch.bunnyad.service.GetCardNumReceiver");
+        filter.addAction("codingpark.net.bunnyad.service.GetCardNumReceiver");
+        //注册广播,
+        registerReceiver(receiver, filter);
         super.onResume();
     }
+
+    @Override
+    protected void onPause() {
+        releaseCamera();
+        unregisterReceiver(receiver);
+        super.onPause();
+    }
+
     // 拍照回调
     private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
 
@@ -132,14 +174,15 @@ public class EnterActivity extends Activity implements OnClickListener {
         switch (v.getId()){
             case R.id.button_capture:
                 //拍照
+                // mCamera.autoFocus(mAutoFocusCallback);
                 mCamera.takePicture(null, null, mPictureCallback);
                 break;
             case R.id.btn_affirm:
                 //确认录入
-                if(et_enter_cardNumber.getText().toString().isEmpty()||et_enter_name.getText().toString().isEmpty()
+                if(et_enter_cardNumber.getText().toString().isEmpty()||et_enter_name.getText().toString().isEmpty()||mProbeFeatureBean==null
                        ){
-                    makeToast("卡号或者姓名不能为空！");
-                }else if(mProbeFeatureBean!=null&&mProbeFeatureBean.ret != 0){
+                    makeToast("卡号、姓名和图像不能为空！");
+                }else if(mProbeFeatureBean.ret != 0){
                     makeToast("人脸识别失败，请重新采集数据！");
                 }else {
                     String cardNumber = et_enter_cardNumber.getText().toString();
@@ -166,7 +209,7 @@ public class EnterActivity extends Activity implements OnClickListener {
                 et_enter_cardNumber.setText(null);
                 et_enter_name.setText(null);
                 mProbeFeatureBean = null;
-                iv_enter_image.setImageResource(R.drawable.idbcg2);
+                iv_enter_image.setImageResource(R.drawable.defface);
                 break;
             case R.id.rb_sex_man:
                 rb_sex_woman.setChecked(false);
@@ -174,9 +217,31 @@ public class EnterActivity extends Activity implements OnClickListener {
             case R.id.rb_sex_woman:
                 rb_sex_man.setChecked(false);
                 break;
+            case R.id.back_capture:
+                Intent intent = new Intent(this, RecognitionActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+            case R.id.back_home:
+                this.finish();
+                Intent mHomeIntent = new Intent(Intent.ACTION_MAIN);
+                mHomeIntent.addCategory(Intent.CATEGORY_HOME);
+                mHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                startActivity(mHomeIntent);
+                break;
         }
 
     }
+    // 聚焦回调
+    private Camera.AutoFocusCallback mAutoFocusCallback = new Camera.AutoFocusCallback() {
+        @Override
+        public void onAutoFocus(boolean success, Camera camera) {
+            if (success) {
+                mCamera.takePicture(null, null, mPictureCallback);
+            }
+        }
+    };
     // 判断相机是否支持
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(
@@ -206,6 +271,12 @@ public class EnterActivity extends Activity implements OnClickListener {
             mCamera = null;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void updateResult(String imgFilePath) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("HH_mm_ss");
         String path = ConStant.publicFilePath + "/veryfy" + sdf.format(new Date()) + ".jpg";
@@ -231,6 +302,86 @@ public class EnterActivity extends Activity implements OnClickListener {
 
     public void	makeToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+    public class BroadcastReceiveForEnter extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String cardnum = intent.getStringExtra("cardnum");
+            switch (cardnum) {
+                case "0736077566":
+                    et_enter_cardNumber.setText("0736077566");
+                    et_enter_name.setText("王学文");
+                    break;
+                case "0736148167":
+                    et_enter_cardNumber.setText("0736148167");
+                    et_enter_name.setText("石海峰");
+                    break;
+                case "0736074012":
+                    et_enter_cardNumber.setText("0736074012");
+                    et_enter_name.setText("解然");
+                    break;
+                case "0736174253":
+                    et_enter_cardNumber.setText("0736174253");
+                    et_enter_name.setText("单小熙");
+                    break;
+                case "0736183497":
+                    et_enter_cardNumber.setText("0736183497");
+                    et_enter_name.setText("陈江华");
+                    break;
+                case "0736195674":
+                    et_enter_cardNumber.setText("0736195674");
+                    et_enter_name.setText("胡祥洪");
+                    break;
+                case "0736054140":
+                    et_enter_cardNumber.setText("0736054140");
+                    et_enter_name.setText("杨凡");
+                    break;
+                case "0736199062":
+                    et_enter_cardNumber.setText("0736199062");
+                    et_enter_name.setText("蒋磊");
+                    break;
+                default:
+                    et_enter_cardNumber.setText(cardnum);
+                    break;
+            }
+            /*switch (cardnum) {
+                case "736077566":
+                    et_enter_cardNumber.setText("736077566");
+                    et_enter_name.setText("王学文");
+                    break;
+                case "736148167":
+                    et_enter_cardNumber.setText("736148167");
+                    et_enter_name.setText("石海峰");
+                    break;
+                case "736074012":
+                    et_enter_cardNumber.setText("736074012");
+                    et_enter_name.setText("解然");
+                    break;
+                case "736174253":
+                    et_enter_cardNumber.setText("736174253");
+                    et_enter_name.setText("单小熙");
+                    break;
+                case "736183497":
+                    et_enter_cardNumber.setText("736183497");
+                    et_enter_name.setText("陈江华");
+                    break;
+                case "736195674":
+                    et_enter_cardNumber.setText("736195674");
+                    et_enter_name.setText("胡祥洪");
+                    break;
+                case "736054140":
+                    et_enter_cardNumber.setText("736054140");
+                    et_enter_name.setText("杨凡");
+                    break;
+                case "736199062":
+                    et_enter_cardNumber.setText("736199062");
+                    et_enter_name.setText("蒋磊");
+                    break;
+                default:
+                    et_enter_cardNumber.setText(cardnum);
+                    break;
+            }*/
+        }
     }
 
 }

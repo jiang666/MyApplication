@@ -13,7 +13,7 @@ public class FaceInfo {
 
 	public int trackId;  // 人脸ID（ID<0表示没有进入跟踪）
 	
-	// face rect人脸框
+	// Face rect人脸框
 	public int x;        // 左上角x坐标
 	public int y;        // 坐上角y坐标
 	public int width;    // 人脸宽

@@ -29,7 +29,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@drawable/bunny_icon"
         android:name=".MApplication"
         android:label="DEMO"
         android:theme="@style/AppTheme">
@@ -55,7 +55,9 @@
         <activity android:name="com.iflytek.demo.server.ServerActivity"></activity>
         <activity android:name="com.iflytek.demo.httpdemo.NetActivity"></activity>
         <activity android:name="com.iflytek.demo.pdf.PDFactivity"></activity>
-        <activity android:name="com.iflytek.demo.face.FACEactivity"></activity>
+        <activity android:name="com.iflytek.demo.face.EnterActivity"></activity>
+        <activity android:name="com.iflytek.demo.face.FACEActivity"></activity>
+        <activity android:name="com.iflytek.demo.face.RecognitionActivity"></activity>
         <service
             android:name=".server.TestServer"
             android:process=":rrtty"></service>

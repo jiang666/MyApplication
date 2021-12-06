@@ -2,7 +2,6 @@ package com.iflytek.demo;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -28,13 +26,14 @@ import com.iflytek.demo.bluetooth.BluetoothActivity;
 import com.iflytek.demo.buttombar.ButtomBarActivity;
 import com.iflytek.demo.evenbus.MessageEven;
 import com.iflytek.demo.face.ConStant;
-import com.iflytek.demo.face.FACEactivity;
+import com.iflytek.demo.face.EnterActivity;
+import com.iflytek.demo.face.FACEActivity;
 import com.iflytek.demo.face.FileUtil;
 import com.iflytek.demo.face.LocalSDK;
+import com.iflytek.demo.face.RecognitionActivity;
 import com.iflytek.demo.filesave.FiileActivity;
 import com.iflytek.demo.httpdemo.NetActivity;
 import com.iflytek.demo.jni.JNIActivity;
-import com.iflytek.demo.multilevelmenu.MulmenuActivity;
 import com.iflytek.demo.mvp.view.MainActivity;
 import com.iflytek.demo.pdf.PDFactivity;
 import com.iflytek.demo.photo.PhotoActivity;
@@ -57,7 +56,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
- * Created by jianglei on 2017/2/24.
+ * 云从人脸识别
  */
 
 public class MainTActivity extends AppCompatActivity {
@@ -122,6 +121,8 @@ public class MainTActivity extends AppCompatActivity {
             m_bInit = false;
         } else {
             m_bInit = true;
+            Intent intent = new Intent(this, EnterActivity.class);
+            startActivity(intent);
         }
 
     }
@@ -141,9 +142,9 @@ public class MainTActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                    String deviceId = tm.getDeviceId();
-                    Log.e("-----------",deviceId);
+                    //TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    //String deviceId = tm.getDeviceId();
+                    //Log.e("-----------",deviceId);
                 }catch (Exception e){
                     Log.e("-----------",e.toString());
                 }
@@ -183,9 +184,9 @@ public class MainTActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(MainTActivity.this, mDatas.get(position) + " longclick",
+                /*Toast.makeText(MainTActivity.this, mDatas.get(position) + " longclick",
                         Toast.LENGTH_SHORT).show();
-                recycleAdapter.removeData(position);
+                recycleAdapter.removeData(position);*/
             }
         });
        /* recycler_add.setVisibility(View.GONE);
@@ -334,8 +335,8 @@ public class MainTActivity extends AppCompatActivity {
         Intent intent = null;
         switch (item) {
             case "多级筛选":
-                intent = new Intent(this, MulmenuActivity.class);
-                startActivity(intent);
+                //intent = new Intent(this, MulmenuActivity.class);
+                //startActivity(intent);
                 break;
             case "底部导航":
                 intent = new Intent(this, ButtomBarActivity.class);
@@ -390,7 +391,15 @@ public class MainTActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case "人脸识别":
-                intent = new Intent(this, FACEactivity.class);
+                intent = new Intent(this, FACEActivity.class);
+                startActivity(intent);
+                break;
+            case "录入":
+                intent = new Intent(this, EnterActivity.class);
+                startActivity(intent);
+                break;
+            case "签到":
+                intent = new Intent(this, RecognitionActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -445,6 +454,12 @@ public class MainTActivity extends AppCompatActivity {
                     break;
                 case 14:
                     mDatas.add("人脸识别");
+                    break;
+                case 15:
+                    mDatas.add("录入");
+                    break;
+                case 16:
+                    mDatas.add("签到");
                     break;
                 default:
                     mDatas.add("this"+i);

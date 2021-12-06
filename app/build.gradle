@@ -34,7 +34,7 @@ dependencies {
     provided fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
@@ -55,6 +55,7 @@ dependencies {
     compile ('com.j256.ormlite:ormlite-android:4.48'){
         exclude module: 'support-compat'
     }
+    //compile project(':zxing')
     //compile 'zlc.season:rxdownload:1.1.0'
     //compile(name: 'LiteAVSDK_Professional_3.4.1757', ext: 'aar')
     //compile project(':librarydemo')
