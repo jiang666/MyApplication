@@ -89,7 +89,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int pos = ((MyViewHolder)viewHolder).getPosition();
+                        int pos = ((MyViewHoldertwo)viewHolder).getPosition();
                         mOnItemClickLitener.onItemClick(viewHolder.itemView,pos);
                     }
                 });
@@ -97,7 +97,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     @Override
                     public boolean onLongClick(View v) {
 
-                        int pos = ((MyViewHolder)viewHolder).getPosition();
+                        int pos = ((MyViewHoldertwo)viewHolder).getPosition();
                         mOnItemClickLitener.onItemLongClick(viewHolder.itemView, pos);
                         return false;
                     }

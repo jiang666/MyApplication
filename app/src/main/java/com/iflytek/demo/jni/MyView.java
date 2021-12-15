@@ -16,12 +16,12 @@ public class MyView extends View {
 		this.presure = presure;
 		paint = new Paint(); //创建画笔
 
-		if (presure < 100) {
+		if (presure < 30) {
 			//画一个绿色的矩形
 			paint.setColor(Color.GREEN);
-		}else if (presure<200 ) {
+		}else if (presure<60 ) {
 			paint.setColor(Color.YELLOW);
-		}else if (presure<290) {
+		}else if (presure<90) {
 			paint.setColor(Color.RED);
 		}else {
 			System.out.println("爆炸了...");

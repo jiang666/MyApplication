@@ -78,7 +78,7 @@ public class MainTActivity extends AppCompatActivity {
     protected static final int DIALOG_CANCEL = 1;
     String[] models;
     private ProgressDialog dialog = null;
-    private Handler myHandler = new Handler() {
+    /*private Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
@@ -105,7 +105,7 @@ public class MainTActivity extends AppCompatActivity {
             super.handleMessage(msg);
         }
 
-    };
+    };*/
     private AlertDialogHelper alertdialog;
 
     private void hideProgress() {
@@ -277,17 +277,17 @@ public class MainTActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        try {
+        /*try {
             models = this.getAssets().list(ConStant.ASSERT_MODULE_DIR);
             copyModules(103, 103);
             //PreferencesUtils.putInt(this, PREV_VERSION_CODE, versionCode);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
         super.onResume();
     }
-    // 预加载CWModels数据
+   /* // 预加载CWModels数据
     public void copyModules(int versionCode, int prevVersionCode) {
 
         // 检测模型是否存在以及程序verisonCode是否不一样
@@ -321,7 +321,7 @@ public class MainTActivity extends AppCompatActivity {
         } else {
             myHandler.sendEmptyMessageDelayed(DIALOG_CANCEL, 500);
         }
-    }
+    }*/
     // 拷贝assets下的文件的方法
     private void assetsDataToSD(String assertDir, String fileName,
                                 String modelDir) throws IOException {
